@@ -35,18 +35,22 @@ func (j *JSONData) Encoding() error {
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(inputFile, j.DockerCompose)
+	
+	err = json.Unmarshal(inputFile, &j.DockerCompose)
 	if err != nil {
 		return err
 	}
-	yamlData, err := yaml.Marshal(j.DockerCompose)
+
+	yamlData, err := yaml.Marshal(&j.DockerCompose)
 	if err != nil {
 		return err
 	}
+
 	err = os.WriteFile(j.FileOutput, yamlData, 0666)
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -58,14 +62,17 @@ func (y *YAMLData) Encoding() error {
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(inputFile, y.DockerCompose)
+
+	err = yaml.Unmarshal(inputFile, &y.DockerCompose)
 	if err != nil {
 		return err
 	}
-	jsonData, err := yaml.Marshal(y.DockerCompose)
+
+	jsonData, err := json.Marshal(&y.DockerCompose)
 	if err != nil {
 		return err
 	}
+
 	err = os.WriteFile(y.FileOutput, jsonData, 0666)
 	if err != nil {
 		return err
